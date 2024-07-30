@@ -2,9 +2,9 @@ syntax = "proto3";
 
 option go_package = "github.com/DeathStroke19891/transactions/transactions";
 
-package transactionsPipeline;
+package transactions;
 
-service transactionsPipeline {
+service Transactions {
   rpc CommitTransaction(Transaction) returns (Status) {}
 }
 

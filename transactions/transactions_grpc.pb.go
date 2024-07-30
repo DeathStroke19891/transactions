@@ -18,86 +18,86 @@ import (
 // Requires gRPC-Go v1.32.0 or later.
 const _ = grpc.SupportPackageIsVersion7
 
-// TransactionsPipelineClient is the client API for TransactionsPipeline service.
+// TransactionsClient is the client API for Transactions service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type TransactionsPipelineClient interface {
+type TransactionsClient interface {
 	CommitTransaction(ctx context.Context, in *Transaction, opts ...grpc.CallOption) (*Status, error)
 }
 
-type transactionsPipelineClient struct {
+type transactionsClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewTransactionsPipelineClient(cc grpc.ClientConnInterface) TransactionsPipelineClient {
-	return &transactionsPipelineClient{cc}
+func NewTransactionsClient(cc grpc.ClientConnInterface) TransactionsClient {
+	return &transactionsClient{cc}
 }
 
-func (c *transactionsPipelineClient) CommitTransaction(ctx context.Context, in *Transaction, opts ...grpc.CallOption) (*Status, error) {
+func (c *transactionsClient) CommitTransaction(ctx context.Context, in *Transaction, opts ...grpc.CallOption) (*Status, error) {
 	out := new(Status)
-	err := c.cc.Invoke(ctx, "/transactionsPipeline.transactionsPipeline/CommitTransaction", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/transactions.Transactions/CommitTransaction", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// TransactionsPipelineServer is the server API for TransactionsPipeline service.
-// All implementations must embed UnimplementedTransactionsPipelineServer
+// TransactionsServer is the server API for Transactions service.
+// All implementations must embed UnimplementedTransactionsServer
 // for forward compatibility
-type TransactionsPipelineServer interface {
+type TransactionsServer interface {
 	CommitTransaction(context.Context, *Transaction) (*Status, error)
-	mustEmbedUnimplementedTransactionsPipelineServer()
+	mustEmbedUnimplementedTransactionsServer()
 }
 
-// UnimplementedTransactionsPipelineServer must be embedded to have forward compatible implementations.
-type UnimplementedTransactionsPipelineServer struct {
+// UnimplementedTransactionsServer must be embedded to have forward compatible implementations.
+type UnimplementedTransactionsServer struct {
 }
 
-func (UnimplementedTransactionsPipelineServer) CommitTransaction(context.Context, *Transaction) (*Status, error) {
+func (UnimplementedTransactionsServer) CommitTransaction(context.Context, *Transaction) (*Status, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CommitTransaction not implemented")
 }
-func (UnimplementedTransactionsPipelineServer) mustEmbedUnimplementedTransactionsPipelineServer() {}
+func (UnimplementedTransactionsServer) mustEmbedUnimplementedTransactionsServer() {}
 
-// UnsafeTransactionsPipelineServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to TransactionsPipelineServer will
+// UnsafeTransactionsServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to TransactionsServer will
 // result in compilation errors.
-type UnsafeTransactionsPipelineServer interface {
-	mustEmbedUnimplementedTransactionsPipelineServer()
+type UnsafeTransactionsServer interface {
+	mustEmbedUnimplementedTransactionsServer()
 }
 
-func RegisterTransactionsPipelineServer(s grpc.ServiceRegistrar, srv TransactionsPipelineServer) {
-	s.RegisterService(&TransactionsPipeline_ServiceDesc, srv)
+func RegisterTransactionsServer(s grpc.ServiceRegistrar, srv TransactionsServer) {
+	s.RegisterService(&Transactions_ServiceDesc, srv)
 }
 
-func _TransactionsPipeline_CommitTransaction_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Transactions_CommitTransaction_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(Transaction)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(TransactionsPipelineServer).CommitTransaction(ctx, in)
+		return srv.(TransactionsServer).CommitTransaction(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/transactionsPipeline.transactionsPipeline/CommitTransaction",
+		FullMethod: "/transactions.Transactions/CommitTransaction",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(TransactionsPipelineServer).CommitTransaction(ctx, req.(*Transaction))
+		return srv.(TransactionsServer).CommitTransaction(ctx, req.(*Transaction))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// TransactionsPipeline_ServiceDesc is the grpc.ServiceDesc for TransactionsPipeline service.
+// Transactions_ServiceDesc is the grpc.ServiceDesc for Transactions service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
-var TransactionsPipeline_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "transactionsPipeline.transactionsPipeline",
-	HandlerType: (*TransactionsPipelineServer)(nil),
+var Transactions_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "transactions.Transactions",
+	HandlerType: (*TransactionsServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
 			MethodName: "CommitTransaction",
-			Handler:    _TransactionsPipeline_CommitTransaction_Handler,
+			Handler:    _Transactions_CommitTransaction_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
